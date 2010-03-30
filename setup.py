@@ -3,9 +3,9 @@ import os
 
 version = '0.1dev'
 
-setup(name='zojax.django.widgets.thumbnail',
+setup(name='zojax.django.widgets.autocomplete',
       version=version,
-      description="Widgets for images with thumbnails.",
+      description="Widgets for images with autocompletes.",
       long_description="",
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -27,7 +27,6 @@ setup(name='zojax.django.widgets.thumbnail',
         ),
       install_requires=[
           'setuptools',
-          'sorl-thumbnail'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
