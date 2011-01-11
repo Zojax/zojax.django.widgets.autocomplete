@@ -9,6 +9,7 @@ parts of this code taken from http://www.djangosnippets.org/snippets/934/
 """
 from django.conf import settings
 from django.core.urlresolvers import reverse, NoReverseMatch  
+import django.forms
 from django.forms.widgets import HiddenInput, TextInput  
 from django.utils import simplejson  
 from django.utils.safestring import mark_safe  
@@ -31,7 +32,8 @@ class AutocompleteWidget(TextInput):
                 css = {
                         'all': ('%sautocomplete/jquery.autocomplete.css' % settings.MEDIA_URL,)
                 }
-                js = ('%sautocomplete/js/jquery.bgiframe.min.js' % settings.MEDIA_URL,
+                js = ('%sautocomplete/js/init.js' % settings.MEDIA_URL,
+                      '%sautocomplete/js/jquery.bgiframe.min.js' % settings.MEDIA_URL,
                       '%sautocomplete/js/jquery.ajaxQueue.js' % settings.MEDIA_URL,
                       '%sautocomplete/js/jquery.autocomplete.js' % settings.MEDIA_URL,
                 )
@@ -55,14 +57,13 @@ class AutocompleteWidget(TextInput):
         self.attrs = attrs or {}  
         self.choice, self.choices, self.choices_url = None, choices, choices_url  
         self.options = options or {}  
-        
         if related_fields:  
             extra = {}  
             if isinstance(related_fields, str):  
                 related_fields = list(related_fields)  
-        
+            
             for field in related_fields:  
-                extra[field] = "%s_value" % field  
+                extra[field] = "%s_value" % field.replace('-', '_')  
         
             self.extra = extra  
         else:  
@@ -90,7 +91,6 @@ class AutocompleteWidget(TextInput):
                 choices = simplejson.dumps(reverse(str(self.choices_url)))  
             except NoReverseMatch:  
                 choices = simplejson.dumps(self.choices_url)  
-        
         if self.options or self.extra:  
             if 'extraParams' in self.options:  
                 self.options['extraParams'].update(self.extra)  
@@ -100,8 +100,9 @@ class AutocompleteWidget(TextInput):
             options = ', ' + simplejson.dumps(self.options, indent=4, sort_keys=True)
             extra = []  
         
-            for k, v in self.extra.items():  
-                options = options.replace(simplejson.dumps(v), v)  
+            for k, v in self.extra.items():
+                v = v.replace('-', '_')  
+                options = options.replace(simplejson.dumps(v), v)
                 extra.append(u"function %s() { return $('#id_%s').val(); }\n" % (v, k))  
         
             extra = u''.join(extra)  
