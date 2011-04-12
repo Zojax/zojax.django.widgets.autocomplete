@@ -30,12 +30,12 @@ class AutocompleteWidget(TextInput):
     
     class Media:
                 css = {
-                        'all': ('%sautocomplete/jquery.autocomplete.css' % settings.MEDIA_URL,)
+                        'all': ('%sautocomplete/jquery.autocomplete.css' % settings.STATIC_URL,)
                 }
-                js = ('%sautocomplete/js/init.js' % settings.MEDIA_URL,
-                      '%sautocomplete/js/jquery.bgiframe.min.js' % settings.MEDIA_URL,
-                      '%sautocomplete/js/jquery.ajaxQueue.js' % settings.MEDIA_URL,
-                      '%sautocomplete/js/jquery.autocomplete.js' % settings.MEDIA_URL,
+                js = ('%sautocomplete/js/init.js' % settings.STATIC_URL,
+                      '%sautocomplete/js/jquery.bgiframe.min.js' % settings.STATIC_URL,
+                      '%sautocomplete/js/jquery.ajaxQueue.js' % settings.STATIC_URL,
+                      '%sautocomplete/js/jquery.autocomplete.js' % settings.STATIC_URL,
                 )
 
     def __init__(self, attrs=None, choices=None, choices_url=None, options=None, related_fields=None):  
